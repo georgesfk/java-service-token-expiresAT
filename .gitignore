@@ -1,0 +1,62 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+.flattened-pom.xml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+*.class
+
+# Build
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environmental
+.env
+.env.local
+.env.*.local
+
+# Testing
+.test/
+
+# Runtime
+/bin/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+*.lnk
+
+# Spring Boot
+application.properties
+application-local.yml
+
+# Node (if using frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*

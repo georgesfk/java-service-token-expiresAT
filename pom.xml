@@ -12,11 +12,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.auth</groupId>
-    <artifactId>auth-service</artifactId>
+    <groupId>com.tokenguard</groupId>
+    <artifactId>tokenguard</artifactId>
     <version>1.0.0</version>
-    <name>Auth Service</name>
-    <description>Service d'authentification avec JWT et Refresh Tokens</description>
+    <name>TokenGuard</name>
+    <description>Authentification JWT Production-Ready avec Spring Boot, Token Rotation et Rate Limiting</description>
 
     <properties>
         <java.version>17</java.version>
