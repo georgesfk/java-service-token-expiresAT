@@ -1,0 +1,39 @@
+@Service
+public class AuthService {
+    @Autowired RefreshTokenRepository refreshRepo;
+    @Autowired JwtUtil jwtUtil;
+    @Autowired AuthenticationManager authManager;
+    @Autowired PasswordEncoder passwordEncoder;
+
+    public AuthResponse login(String username, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        String accessToken = jwtUtil.generateAccessToken(username);
+        // create refresh token
+        RefreshToken rt = new RefreshToken();
+        rt.setToken(UUID.randomUUID().toString());
+        rt.setUsername(username);
+        rt.setExpiresAt(Instant.now().plus(30, ChronoUnit.DAYS));
+        refreshRepo.save(rt);
+        return new AuthResponse(accessToken, rt.getToken());
+    }
+
+    public AuthResponse refresh(String refreshToken) {
+        RefreshToken rt = refreshRepo.findByToken(refreshToken)
+                        .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+        if (rt.getExpiresAt().isBefore(Instant.now())) {
+            refreshRepo.delete(rt);
+            throw new RuntimeException("Refresh token expired");
+        }
+        String newAccess = jwtUtil.generateAccessToken(rt.getUsername());
+        // rotation: generate new refresh token, delete old
+        String newRefresh = UUID.randomUUID().toString();
+        rt.setToken(newRefresh);
+        rt.setExpiresAt(Instant.now().plus(30, ChronoUnit.DAYS));
+        refreshRepo.save(rt);
+        return new AuthResponse(newAccess, newRefresh);
+    }
+
+    public void logout(String refreshToken) {
+        refreshRepo.deleteByToken(refreshToken);
+    }
+}
